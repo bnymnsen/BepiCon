@@ -1,0 +1,21 @@
+Amino Acid,Abbreviation 3 letter,Abbreviation 1 letter,Hydropathy (3 classes),Volume (5 classes),Chemical (7 classes),Physicochemical (11 classes),Charge (3 classes),Polarity (2 classes),Hydrogen donor or acceptor atom (4 classes)
+Alanine,ALA,A,hydrophobic,very small,aliphatic,aliphatic,uncharged,nonpolar,none
+Arginine,ARG,R,hydrophilic,large,basic,basic,positive charged,polar,donor
+Asparagine,ASN,N,hydrophilic,small,amide,amide,uncharged,polar,donor and acceptor
+Aspartic acid,ASP,D,hydrophilic,small,acidic,acidic,negative charged,polar,acceptor
+Cysteine,CYS,C,hydrophobic,small,sulfur,sulfur,uncharged,nonpolar,none
+Glutamine,GLN,Q,hydrophilic,medium,amide,amide,uncharged,polar,donor and acceptor
+Glutamic acid,GLU,E,hydrophilic,medium,acidic,acidic,negative charged,polar,acceptor
+Glycine,GLY,G,neutral,very small,aliphatic,G,uncharged,nonpolar,none
+Histidine,HIS,H,neutral,medium,basic,basic,positive charged,polar,donor and acceptor
+Isoleucine,ILE,I,hydrophobic,large,aliphatic,aliphatic,uncharged,nonpolar,none
+Leucine,LEU,L,hydrophobic,large,aliphatic,aliphatic,uncharged,nonpolar,none
+Lysine,LYS,K,hydrophilic,large,basic,basic,positive charged,polar,donor
+Methionine,MET,M,hydrophobic,large,sulfur,sulfur,uncharged,nonpolar,none
+Phenylalanine,PHE,F,hydrophobic,very large,aromatic,F,uncharged,nonpolar,none
+Proline,PRO,P,neutral,small,aliphatic,P,uncharged,nonpolar,none
+Serine,SER,S,neutral,very small,hydroxyl,hydroxyl,uncharged,polar,donor and acceptor
+Threonine,THR,T,neutral,small,hydroxyl,hydroxyl,uncharged,polar,donor and acceptor
+Tryptophan,TRP,W,hydrophobic,very large,aromatic,W,uncharged,nonpolar,donor
+Tyrosine,TYR,Y,neutral,very large,aromatic,Y,uncharged,polar,donor and acceptor
+Valine,VAL,V,hydrophobic,medium,aliphatic,aliphatic,uncharged,nonpolar,none
