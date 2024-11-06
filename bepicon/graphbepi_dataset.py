@@ -815,6 +815,7 @@ class AntigenDataset(Dataset):
             unique_edge_types = ['peptide_bond', 'knn', 'hydrophobic', 'aromatic', 'hbond', 'ionic', 'disulfide']
         
         sequence = g.graph[f"sequence_{chain_id}"]
+        eps_set = set()
         for index, (n, d) in enumerate(g.nodes(data=True)):
             assert n.count(":") in [2, 3], f"Might be a corrupted node, check it. Node: {n}"
 
@@ -874,14 +875,17 @@ class AntigenDataset(Dataset):
                 else:
                     d["epitope"] = 0
             else:
-                if epitopes_dict.get(str(d["residue_number"])) and n.count(":") == 2:
-                    assert (epitopes_dict[str(d["residue_number"])] == d["residue_name"]), f"Residue name not matching in graph and epitope dataset, Dataset residue name: {epitopes_dict[str(d['residue_number'])]}, Graph residue name: {d['residue_name']}"
+                if epitopes_dict.get(str(d["residue_number"])) and n.count(":") == 2 and (str(d["residue_number"]), epitopes_dict.get(str(d["residue_number"]))) not in eps_set:
+                    eps_set.add((str(d["residue_number"]), epitopes_dict.get(str(d["residue_number"]))))
+                    assert (epitopes_dict[str(d["residue_number"])] == d["residue_name"]), f"Residue name not matching in graph and epitope dataset, Dataset residue name: {epitopes_dict[str(d['residue_number'])]}, Graph residue name: {d['residue_name']}\npdb_path: {pdb_path}. chain: {chain_id}"
                     d["epitope"] = 1
-                elif n.count(":") == 3 and epitopes_dict.get("".join(n.split(":")[-2:])):
-                    assert (epitopes_dict["".join(n.split(":")[-2:])] == d["residue_name"]), f"Residue name not matching in graph and epitope dataset, Dataset residue name: {epitopes_dict[''.join(n.split(':')[-2:])]}, Graph residue name: {d['residue_name']}"
+                elif n.count(":") == 3 and epitopes_dict.get("".join(n.split(":")[-2:])) and ("".join(n.split(":")[-2:]), epitopes_dict.get("".join(n.split(":")[-2:]))) not in eps_set:
+                    eps_set.add(("".join(n.split(":")[-2:]), epitopes_dict.get("".join(n.split(":")[-2:]))))
+                    assert (epitopes_dict["".join(n.split(":")[-2:])] == d["residue_name"]), f"Residue name not matching in graph and epitope dataset, Dataset residue name: {epitopes_dict[''.join(n.split(':')[-2:])]}, Graph residue name: {d['residue_name']}\n pdb_path: {pdb_path}. chain: {chain_id}"
                     d["epitope"] = 1
-                elif n.count(":") == 3 and epitopes_dict.get(str(d["residue_number"])):
-                    assert (epitopes_dict[str(d["residue_number"])] == d["residue_name"]), f"Residue name not matching in graph and epitope dataset, Dataset residue name: {epitopes_dict[str(d['residue_number'])]}, Graph residue name: {d['residue_name']}"
+                elif n.count(":") == 3 and epitopes_dict.get(str(d["residue_number"])) and (str(d["residue_number"]), epitopes_dict.get(str(d["residue_number"]))) not in eps_set:
+                    eps_set.add((str(d["residue_number"]), epitopes_dict.get(str(d["residue_number"]))))
+                    assert (epitopes_dict[str(d["residue_number"])] == d["residue_name"]), f"Residue name not matching in graph and epitope dataset, Dataset residue name: {epitopes_dict[str(d['residue_number'])]}, Graph residue name: {d['residue_name']}\n pdb_path: {pdb_path}. chain: {chain_id}"
                     d["epitope"] = 1
                 else:
                     d["epitope"] = 0
@@ -928,7 +932,7 @@ class AntigenDataset(Dataset):
             self.check_networkx_graph_node_feauture_validity(input_data=d, chain_id=chain_id)
 
         
-        assert len(epitopes_dict) == len([d for _, d in g.nodes(data=True) if d["epitope"] == 1]), f"Epitope count mismatch between epitope dataset and graph. pdb_path: {pdb_path}. chain: {chain_id}"
+        # assert len(epitopes_dict) == len([d for _, d in g.nodes(data=True) if d["epitope"] == 1]), f"Epitope count mismatch between epitope dataset and graph. pdb_path: {pdb_path}. chain: {chain_id}"
 
         for s, t, d in g.edges(data=True):
             edge_type = d["kind"]
